@@ -31,7 +31,21 @@ const EditMovie = props => {
         e.preventDefault()
         axios
             .put(`http://localhost:5000/api/movies/${id}`, movie)
-            .then(res => console.log(res.data))
+            .then(res => {
+                console.log(res.data)
+                props.history.push(`/movies/${id}`)
+            })
+            .catch(err => console.log(err))
+    }
+
+    const handleDelete = (e) => {
+        e.preventDefault()
+        axios
+            .delete(`http://localhost:5000/api/movies/${id}`)
+            .then(res => {
+                console.log(res)
+                props.history.push("/")
+            })
             .catch(err => console.log(err))
     }
     return (
@@ -67,6 +81,7 @@ const EditMovie = props => {
                 placeholder="stars"
             />
             <button type="submit">Submit changes</button>
+            <button onClick={handleDelete}>Delete Movie</button>
             </form>
         </div>
     )
