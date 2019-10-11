@@ -11,8 +11,6 @@ const initialState = {
 
 const EditMovie = props => {
     const [movie, setMovie] = useState(initialState)
-    console.log(props)
-    console.log(movie)
 
     const id = props.match.params.id
 
@@ -29,10 +27,17 @@ const EditMovie = props => {
         setMovie({ ...movie, [e.target.name]: e.target.value})
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        axios
+            .put(`http://localhost:5000/api/movies/${id}`, movie)
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err))
+    }
     return (
         <div>
             <h3>Edit Movie</h3>
-            <form>
+            <form onSubmit={handleSubmit}>
             <input 
                 type="text"
                 name="title"
@@ -61,6 +66,7 @@ const EditMovie = props => {
                 value={movie.stars}
                 placeholder="stars"
             />
+            <button type="submit">Submit changes</button>
             </form>
         </div>
     )
